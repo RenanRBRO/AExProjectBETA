@@ -4,6 +4,15 @@
 		<script src="AExLib/bufferLoaderAEx.js"></script>
 		<script src="AExLib/initAudioContextAEx.js"></script>
 		<script src="AExLib/initializeFilesPlayerAEx.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+		<script>
+		$(document).ready(function(){
+    	$("#botaoPlay").prop("disabled", false);
+			$("#botaoPause").prop("disabled", false);
+		});
+		</script>
+
 	</head>
 	<body>
 		<script>
@@ -15,7 +24,48 @@
 			// Enter the start (in seconds) of the files
 			var startTimeFiles = [ 0, 0];
 
-			window.onload = initializeFilesPlayerAEx(files, startTimeFiles);
+			//window.onload = initializeExample006(files, startTimeFiles);
+
+			//function initializeExample006() {
+				var context = initAudioContextAEx();
+				console.log(context);
+				bLoader = new bufferLoaderAEx( context, files, startTimeFiles, habilitarOsBotoes);
+				bLoader.load();
+			//}
+
+			function habilitarOsBotoes() {
+				$('#botaoPlay').removeAttr('disabled');
+				$('#botaoPause').removeAttr('disabled');
+			}
+
+			var startOffset = 0;
+			var startTime = 0;
+			function pause() {
+				console.log('PAUSE');
+				 source.stop();
+				 // Measure how much time passed since the last pause.
+				 startOffset += context.currentTime - startTime;
+			}
+
+
+			var source = context.createBufferSource();
+			function play() {
+				console.log('PLAY');
+				console.log(context);
+				var a = Math.floor(currentTime)
+				startTime = context.a;
+
+				// Connect graph
+				source.bLoader = this.bLoader;
+				source.loop = true;
+				source.connect(context.destination);
+				// Start playback, but make sure we stay in bound of the buffer.
+				source.start(0, startOffset % bLoader.duration);
+			}
+
 		</script>
+
+		<input id="botaoPlay" type="button" name="botaoPlay" value="PLAY" onclick="play();">
+		<input id="botaoPause" type="button" name="botaoPause" value="PAUSE" onclick="pause();">
 	</body>
 </html>
