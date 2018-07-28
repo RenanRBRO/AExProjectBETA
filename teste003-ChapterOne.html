@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+	</head>
+	
+	<body>
+		<script>
+		
+			/* 
+			 * INITIALIZING AN AUDIO CONTEXT
+			 */
+			var contextClass = (window.AudioContext ||
+								window.webkitAudioContext ||
+								window.mozAudioContext ||
+								window.oAudioContext ||
+								window.msAudioContext);
+			if (contextClass) {
+				// Web Audio API is available.
+				var context = new contextClass();
+			} else {
+				// Web Audio API is not available. Ask the user to use a supported browser.
+			}
+			
+			
+			/* 
+			 * CONNECTING THE AUDIO GRAPH
+			 */
+			// Create the source.
+			var source = context.createBufferSource();
+			// Create the gain node.
+			var gain = context.createGain();
+			// Connect source to filter, filter to destination.
+			source.connect(gain);
+			gain.connect(context.destination);
+
+			
+			/* 
+			 * REROUTING A CONNECT DIRECT
+			 */
+			source.disconnect(0);
+			gain.disconnect(0);
+			source.connect(context.destination);
+			
+			
+			/* 
+			 * LOADING AND PLAYING SOUNDS
+			 */
+			var request = new XMLHttpRequest();
+			request.open('GET', url, true);
+			request.responseType = 'arraybuffer';
+			// Decode asynchronously
+			request.onload = function() {
+				context.decodeAudioData(request.response, function(theBuffer) {
+					buffer = theBuffer;
+				}, onError);
+			}
+			request.send();
+			
+			function playSound(buffer) {
+				var source = context.createBufferSource();
+				source.buffer = buffer;
+				source.connect(context.destination);
+				source.start(0);
+			}
+			
+			
+			/* 
+			 * PUTTING IT ALL TOGETHER
+			 */
+			
+			
+		</script>
+	</body>
+</html>
