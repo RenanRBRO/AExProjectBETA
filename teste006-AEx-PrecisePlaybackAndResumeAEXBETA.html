@@ -27,7 +27,7 @@
 			window.onload = initializeExample006(files, startTimeFiles);
 
 			var context;
-			var bLoader;
+			var bLoader
 			function initializeExample006() {
 				context = initAudioContextAEx();
 				console.log(context);
@@ -43,26 +43,27 @@
 			var startOffset = 0;
 			var startTime = 0;
 
-			var source = context.createBufferSource();
+			var source;
 			function play() {
 				console.log('PLAY');
 				console.log(context);
 				startTime = context.currentTime;
 
+				source = context.createBufferSource();
+
 				// Connect graph
-				source.bLoader = this.bLoader;
+				source.buffer = bLoader.bufferList[0];
 				source.loop = true;
 				source.connect(context.destination);
 				// Start playback, but make sure we stay in bound of the buffer.
-				var a = startOffset % bLoader.duration;
-				source.start(0);
+				source.start(0, startOffset % bLoader.bufferList[0].duration);
 			}
 
 			function pause() {
 				console.log('PAUSE');
-				 source.stop();
-				 // Measure how much time passed since the last pause.
-				 startOffset += context.currentTime - startTime;
+				source.stop();
+				// Measure how much time passed since the last pause.
+				startOffset += context.currentTime - startTime;
 			}
 
 		</script>

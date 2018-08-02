@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	</head>
+	<body>
+		<script>
+			window.onload = initializeExample();
+
+			function callB(context, files) {
+				console.log('Chegou no callB');
+				console.log(context);
+				console.log(files);
+			}
+
+			function initializeExample() {
+				console.log('Iniciou com initializeExample');
+				var context = 'cont';
+				var files = 'file';
+
+				bLoader = new bufferL( context, files, callB(context, files));
+			}
+
+			function bufferL(context, urlList, callback) {
+				console.log('Passou por bufferL');
+				this.context = context;
+				this.urlList = urlList;
+				this.onload = callback;
+				this.bufferList = new Array();
+				this.loadCount = 0;
+				console.log('fim bufferL');
+			}
+
+		</script>
+	</body>
+</html>

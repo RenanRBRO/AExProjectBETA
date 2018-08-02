@@ -1,29 +1,29 @@
-/* 
+/*
  * initializeFilesPlayerAEx
  */
 function initializeFilesPlayerAEx(files, startTimeFiles) {
 	//console.log('initializeFilesPlayerAEx');
-	
+
 	// Initializes the audio context
-	context = initAudioContextAEx();
-	
+	var context = initAudioContextAEx();
+
 	//console.log('Context ' + context);
 	//console.log('Files ' + files);
-	
-	// Creates the object that initializes and loads the buffer
-	bLoader = new bufferLoaderAEx( context, files, startTimeFiles, finishedLoadingAEx);
-	bLoader.load();
-} 
 
-/* 
+	// Creates the object that initializes and loads the buffer
+	var bLoader = new bufferLoaderAEx( context, files, startTimeFiles, finishedLoadingAEx);
+	bLoader.load();
+}
+
+/*
  * finishedLoading
  */
-function finishedLoadingAEx(bufferList, startTimeFiles) {
+function finishedLoadingAEx(bufferList, startTimeFiles, context) {
 	// Create two sources and play them both together.
 	//console.log('finishedLoadingAEx');
 	var source = new Array();
 	for (var i = 0; i < bufferList.length; i++) {
-		source[i] = context.createBufferSource();
+		source[i] = this.context.createBufferSource();
 		//console.log('source ' + i + ' -> ' + source[i]);
 	}
 	for (var i = 0; i < bufferList.length; i++) {
@@ -31,7 +31,7 @@ function finishedLoadingAEx(bufferList, startTimeFiles) {
 		//console.log('source.buffer[' + i + '] -> ' + source[i].buffer);
 	}
 	for (var i = 0; i < bufferList.length; i++) {
-		source[i].connect(context.destination);
+		source[i].connect(this.context.destination);
 		//console.log('source.connect[' + i + '] -> ' + source[i].buffer);
 	}
 	for (var i = 0; i < bufferList.length; i++) {
