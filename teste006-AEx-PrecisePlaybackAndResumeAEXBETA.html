@@ -5,12 +5,19 @@
 		<script src="AExLib/initAudioContextAEx.js"></script>
 		<script src="AExLib/initializeFilesPlayerAEx.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="JQuery/jquery-ui-themes-1.12.1/themes/base/jquery-ui.css">
+	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 		<script>
-		$(document).ready(function(){
-    	$("#botaoPlay").prop("disabled", false);
-			$("#botaoPause").prop("disabled", false);
-		});
+			$(function() {
+				$("#botaoPlay, #botaoPause").button();
+			} );
+
+			$(document).ready(function(){
+	    	$("#botaoPlay").prop("disabled", false);
+				$("#botaoPause").prop("disabled", false);
+			});
 		</script>
 
 	</head>
@@ -38,6 +45,7 @@
 			function habilitarOsBotoes() {
 				$('#botaoPlay').removeAttr('disabled');
 				$('#botaoPause').removeAttr('disabled');
+				console.log('habilita');
 			}
 
 			var startOffset = 0;
@@ -45,6 +53,7 @@
 
 			var source;
 			function play() {
+				$("#botaoPlay").focus();
 				console.log('PLAY');
 				console.log(context);
 				startTime = context.currentTime;
@@ -57,6 +66,8 @@
 				source.connect(context.destination);
 				// Start playback, but make sure we stay in bound of the buffer.
 				source.start(0, startOffset % bLoader.bufferList[0].duration);
+				$("#botaoPlay").prop("disabled", true);
+				$('#botaoPause').removeAttr('disabled');
 			}
 
 			function pause() {
@@ -64,11 +75,14 @@
 				source.stop();
 				// Measure how much time passed since the last pause.
 				startOffset += context.currentTime - startTime;
+				$("#botaoPause").prop("disabled", true);
+				$('#botaoPlay').removeAttr('disabled');
 			}
 
 		</script>
 
-		<input id="botaoPlay" type="button" name="botaoPlay" value="PLAY" onclick="play();">
-		<input id="botaoPause" type="button" name="botaoPause" value="PAUSE" onclick="pause();">
+		<input id="botaoPlay" class="ui-button ui-widget ui-corner-all" type="submit" value="Play" onclick="play();">
+		<input id="botaoPause" class="ui-button ui-widget ui-corner-all" type="submit" value="Pause" onclick="pause();">
+
 	</body>
 </html>

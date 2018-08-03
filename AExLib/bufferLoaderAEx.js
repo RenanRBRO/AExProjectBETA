@@ -1,7 +1,8 @@
-/* 
+/*
  * bufferLoaderAEx
  */
 function bufferLoaderAEx(context, urlList, startTimeFiles, callback) {
+	//console.log('bufferLoaderAEx');
 	this.context = context;
 	this.urlList = urlList;
 	this.startTimeFiles = startTimeFiles;
@@ -10,7 +11,7 @@ function bufferLoaderAEx(context, urlList, startTimeFiles, callback) {
 	this.loadCount = 0;
 }
 
-/* 
+/*
  * bufferLoaderAEx.load
  */
 bufferLoaderAEx.prototype.load = function() {
@@ -21,7 +22,7 @@ bufferLoaderAEx.prototype.load = function() {
 	}
 }
 
-/* 
+/*
  * bufferLoaderAEx.loadBuffer
  */
 bufferLoaderAEx.prototype.loadBuffer = function(url, index) {
