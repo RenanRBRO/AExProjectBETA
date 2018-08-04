@@ -1,7 +1,7 @@
 /*
  * initializeFilesPlayerAEx
  */
-function initializeFilesPlayerAEx(files, startTimeFiles) {
+function initializeFilesPlayerAEx(files, OffsetFiles) {
 	//console.log('initializeFilesPlayerAEx');
 
 	// Initializes the audio context
@@ -11,14 +11,14 @@ function initializeFilesPlayerAEx(files, startTimeFiles) {
 	//console.log('Files ' + files);
 
 	// Creates the object that initializes and loads the buffer
-	var bLoader = new bufferLoaderAEx( context, files, startTimeFiles, finishedLoadingAEx);
+	bLoader = new bufferLoaderWithOffsetCallbackAEx(context, files, OffsetFiles, finishedLoadingAEx);
 	bLoader.load();
 }
 
 /*
  * finishedLoading
  */
-function finishedLoadingAEx(bufferList, startTimeFiles, context) {
+function finishedLoadingAEx(bufferList, OffsetFiles, context) {
 	// Create two sources and play them both together.
 	//console.log('finishedLoadingAEx');
 	var source = new Array();
@@ -35,7 +35,7 @@ function finishedLoadingAEx(bufferList, startTimeFiles, context) {
 		//console.log('source.connect[' + i + '] -> ' + source[i].buffer);
 	}
 	for (var i = 0; i < bufferList.length; i++) {
-		source[i].start(this.startTimeFiles[i]);
+		source[i].start(this.OffsetFiles[i]);
 		var data = new Date();
 		console.log('source.start[' + i + '] -> ' + source[i].buffer + ' at ' + data.getHours() + ':' + data.getMinutes() + ':' + data.getSeconds() + ' ' + data.getMilliseconds());
 	}
