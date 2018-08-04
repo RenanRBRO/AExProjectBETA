@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="AExLib/bufferLoaderAEx.js"></script>
+		<script src="AExLib/initAudioContextAEx.js"></script>
+		<script src="AExLib/initializeFilesPlayerAEx.js"></script>
+		<script src="AExLib/contextControlsAEx.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="JQuery/jquery-ui-themes-1.12.1/themes/base/jquery-ui.css">
+	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+			$(function() {
+				$("#botaoPlay, #botaoPause").button();
+			} );
+
+			$(document).ready(function(){
+				$("#botaoPause").prop("disabled", false);
+				$("#botaoStop").prop("disabled", false);
+
+				myContext = new contextGeneratorAEx(files);
+				//console.log(myContext);
+			});
+		</script>
+
+	</head>
+	<body>
+		<script>
+			console.log('Start');
+
+			// Enter the address of the files
+			var files = [ 'C4.wav', 'C3.wav'];
+
+			// Enter the start (in seconds) of the files
+			var startTimeFiles = [ 0, 0];
+
+			var myContext;
+
+			function play() {
+				console.log(myContext.context);
+				myContext.playContext(true);
+
+				$("#botaoPlay").prop("disabled", true);
+				$('#botaoStop').removeAttr('disabled');
+				$('#botaoPause').removeAttr('disabled');
+			}
+
+			function pause() {
+				console.log('PAUSE');
+				myContext.pauseContext();
+
+				$("#botaoPause").prop("disabled", true);
+				$('#botaoStop').removeAttr('disabled');
+				$('#botaoPlay').removeAttr('disabled');
+			}
+
+			function stop() {
+				console.log('STOP');
+				myContext.stopContext();
+
+				$("#botaoStop").prop("disabled", true);
+				$("#botaoPause").prop("disabled", true);
+				$('#botaoPlay').removeAttr('disabled');
+			}
+
+		</script>
+
+		<button id="botaoStop" class="ui-button ui-widget ui-corner-all" type="submit" onclick="stop();">Stop</button>
+		<input id="botaoPlay" class="ui-button ui-widget ui-corner-all" type="submit" value="Play" onclick="play();">
+		<input id="botaoPause" class="ui-button ui-widget ui-corner-all" type="submit" value="Pause" onclick="pause();">
+
+	</body>
+</html>
