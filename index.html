@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="AExLib/bufferLoaderAEx.js"></script>
+		<script src="AExLib/initAudioContextAEx.js"></script>
+		<script src="AExLib/initializeFilesPlayerAEx.js"></script>
+		<script src="AExLib/contextControlsAEx.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="JQuery/jquery-ui-themes-1.12.1/themes/base/jquery-ui.css">
+	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+			$(function() {
+				$("#botaoPlay, #botaoPause").button();
+			} );
+
+			$(document).ready(function(){
+				$("#botaoPause").prop("disabled", true);
+				$("#botaoStop").prop("disabled", true);
+
+				myContext_ch = new contextGeneratorAEx(file_ch);
+				myContext_kc = new contextGeneratorAEx(file_kc);
+				myContext_sn = new contextGeneratorAEx(file_sn);
+				//console.log(myContext);
+			});
+		</script>
+
+	</head>
+	<body>
+		<script>
+			console.log('Start');
+
+			// Enter the address of the files
+			var file_ch = [ 'cihat-01.wav' ];
+			var file_kc = [ 'kick-01.wav' ];
+			var file_sn = [ 'snare-01.wav' ];
+
+			// Enter the start (in seconds) of the files
+			var startTimeFiles = [ 0, 0];
+
+			var myContext;
+
+			function play() {
+
+				var ibpm = 60/240;
+				for(var bar = 0; bar < 2; bar++) {
+					var time = bar * 8 * ibpm;
+					myContext_kc.playContext(false, time);
+					myContext_kc.playContext(false, time + 4 * ibpm);
+
+					myContext_sn.playContext(false, time + 2 * ibpm);
+					myContext_sn.playContext(false, time + 6 * ibpm);
+
+					for(var i = 0; i < 8; i++) {
+						myContext_ch.playContext(false, time + i * ibpm);
+					}
+				}
+
+				$("#botaoPlay").prop("disabled", true);
+				$('#botaoStop').removeAttr('disabled');
+				$('#botaoPause').removeAttr('disabled');
+			}
+
+			function pause() {
+				console.log('PAUSE');
+				myContext.pauseContext();
+
+				$("#botaoPause").prop("disabled", true);
+				$('#botaoStop').removeAttr('disabled');
+				$('#botaoPlay').removeAttr('disabled');
+			}
+
+			function stop() {
+				console.log('STOP');
+				myContext.stopContext();
+
+				$("#botaoStop").prop("disabled", true);
+				$("#botaoPause").prop("disabled", true);
+				$('#botaoPlay').removeAttr('disabled');
+			}
+
+		</script>
+
+		<button id="botaoStop" class="ui-button ui-widget ui-corner-all" type="submit" onclick="stop();">Stop</button>
+		<input id="botaoPlay" class="ui-button ui-widget ui-corner-all" type="submit" value="Play" onclick="play();">
+		<input id="botaoPause" class="ui-button ui-widget ui-corner-all" type="submit" value="Pause" onclick="pause();">
+
+	</body>
+</html>
