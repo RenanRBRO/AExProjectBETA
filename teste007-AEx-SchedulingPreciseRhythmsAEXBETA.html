@@ -16,10 +16,12 @@
 			} );
 
 			$(document).ready(function(){
-				$("#botaoPause").prop("disabled", false);
-				$("#botaoStop").prop("disabled", false);
+				$("#botaoPause").prop("disabled", true);
+				$("#botaoStop").prop("disabled", true);
 
-				myContext = new contextGeneratorAEx(files);
+				myContext_ch = new contextGeneratorAEx(file_ch);
+				myContext_kc = new contextGeneratorAEx(file_kc);
+				myContext_sn = new contextGeneratorAEx(file_sn);
 				//console.log(myContext);
 			});
 		</script>
@@ -30,7 +32,9 @@
 			console.log('Start');
 
 			// Enter the address of the files
-			var files = [ 'C4.wav', 'C3.wav'];
+			var file_ch = [ 'cihat-01.wav' ];
+			var file_kc = [ 'kick-01.wav' ];
+			var file_sn = [ 'snare-01.wav' ];
 
 			// Enter the start (in seconds) of the files
 			var startTimeFiles = [ 0, 0];
@@ -38,8 +42,20 @@
 			var myContext;
 
 			function play() {
-				console.log(myContext.context);
-				myContext.playContext(true);
+
+				var ibpm = 60/240;
+				for(var bar = 0; bar < 2; bar++) {
+					var time = bar * 8 * ibpm;
+					myContext_kc.playContext(false, time);
+					myContext_kc.playContext(false, time + 4 * ibpm);
+
+					myContext_sn.playContext(false, time + 2 * ibpm);
+					myContext_sn.playContext(false, time + 6 * ibpm);
+
+					for(var i = 0; i < 8; i++) {
+						myContext_ch.playContext(false, time + i * ibpm);
+					}
+				}
 
 				$("#botaoPlay").prop("disabled", true);
 				$('#botaoStop').removeAttr('disabled');

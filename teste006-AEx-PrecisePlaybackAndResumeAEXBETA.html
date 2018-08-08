@@ -16,8 +16,8 @@
 			} );
 
 			$(document).ready(function(){
-				$("#botaoPause").prop("disabled", false);
-				$("#botaoStop").prop("disabled", false);
+				$("#botaoPause").prop("disabled", true);
+				$("#botaoStop").prop("disabled", true);
 
 				myContext = new contextGeneratorAEx(files);
 				//console.log(myContext);
@@ -38,7 +38,7 @@
 			var myContext;
 
 			function play() {
-				console.log(myContext.context);
+				//console.log(myContext.context);
 				myContext.playContext(true);
 
 				$("#botaoPlay").prop("disabled", true);

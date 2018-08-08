@@ -22,8 +22,9 @@
   /*
    * contextGeneratorAEx.playContext
    */
-  contextGeneratorAEx.prototype.playContext = function(loop) {
+  contextGeneratorAEx.prototype.playContext = function(loop, startOffset) {
     console.log('PlayContext');
+    this.startOffset = startOffset;
     var startTime = this.bLoader.context.currentTime;
     //var source = new Array();
     for (var i = 0; i < this.bLoader.bufferList.length; i++) {
@@ -33,7 +34,8 @@
       this.source[i].connect(this.context.destination);
     }
     for (var i = 0; i < this.bLoader.bufferList.length; i++) {
-      this.source[i].start(0, this.startOffset % this.bLoader.bufferList[0].duration);
+      console.log(startOffset);
+      this.source[i].start(startOffset, this.startOffset % this.bLoader.bufferList[0].duration);
     }
     this.startTime = startTime;
   };
@@ -44,7 +46,7 @@
   contextGeneratorAEx.prototype.pauseContext = function() {
     console.log('PauseContext');
     for (var i = 0; i < this.bLoader.bufferList.length; i++) {
-      this.source[i].stop();
+      this.source[0].stop();
     }
     this.startOffset += this.context.currentTime - this.startTime;
   };
